@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Press to Resolve — Platformless Tips</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
+  .wrap { text-align:center; max-width:760px; padding:24px; }
+  button { padding: 14px 24px; font-size: 18px; border:1px solid #000; background:#fff; cursor:pointer; }
+  .fine { color:#444; font-size:14px; margin-top:12px; }
+  .alt { margin-top:10px; font-size:14px; }
+  .box { border:1px solid #ddd; padding:12px; margin-top:14px; background:#fafafa; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Press to Resolve</h1>
+    <div class="box">
+      <strong>Transparency:</strong> This is a voluntary TIP. You owe nothing. No goods/services are provided, no perks, no lottery, no charity receipt, no refunds. Close this page if you’re not interested.
+    </div>
+    <p style="margin-top:12px">By clicking, you will be shown <em>one</em> of three optional tip routes: PayPal, Bitcoin, or Ethereum. You must confirm the payment yourself.</p>
+    <button id="go">Press</button>
+    <div class="alt"><a href="#" id="no">No thanks</a></div>
+    <p class="fine">Routes are randomly selected from <code>/links.json</code>. Nothing happens without a click.</p>
+    <div class="box" style="font-size:13px; text-align:left">
+      <strong>Legal &amp; Compliance (plain-English):</strong>
+      <ul>
+        <li>Not a charity. No tax receipts.</li>
+        <li>No sweepstakes/raffles. No consideration, no prizes.</li>
+        <li>Voluntary tips only; not a sale of goods or services.</li>
+        <li>PayPal/crypto terms apply; you can always close the window.</li>
+      </ul>
+    </div>
+  </div>
+<script>
+const defaultLinks = [
+  "https://paypal.me/MJM0000",
+  "bitcoin:bc1q0hdgldhnlyytfdmfeqrywfsd96p0x67x7kyafp",
+  "eth.html"
+];
+async function pick() {
+  try {
+    const r = await fetch('links.json', {cache:'no-store'});
+    const d = await r.json();
+    const L = Array.isArray(d) && d.length ? d : defaultLinks;
+    const i = Math.floor(Math.random()*L.length);
+    const t = L[i];
+    if (t.endsWith('.html')) { window.location.href = t; } else { window.open(t, '_blank'); }
+  } catch (e) {
+    const L = defaultLinks;
+    const i = Math.floor(Math.random()*L.length);
+    const t = L[i];
+    if (t.endsWith('.html')) { window.location.href = t; } else { window.open(t, '_blank'); }
+  }
+}
+document.getElementById('go').addEventListener('click', pick);
+document.getElementById('no').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.close();
+});
+</script>
+</body>
+</html>
