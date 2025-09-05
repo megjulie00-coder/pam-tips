@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Drift</title>
+<style>
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
+  .wrap { text-align:center; max-width:760px; padding:24px; }
+  button { padding: 12px 20px; font-size: 16px; border:1px solid #000; background:#fff; cursor:pointer; }
+  .fine { color:#444; font-size:13px; margin-top:10px; }
+  .box { border:1px solid #ddd; padding:12px; margin-top:14px; background:#fafafa; }
+  .alt { margin-top:10px; font-size:13px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>404 — This page drifted.</h1>
+    <div class="box"><strong>Transparency:</strong> This is a voluntary TIP. You owe nothing. No goods/services are provided, no perks, no lottery, no charity receipt, no refunds. Close this page if you’re not interested.</div>
+    <p style="margin-top:12px">If you want, click below to see one optional tip route (PayPal / BTC / ETH). Otherwise, close this page.</p>
+    <button id="go">Resolve</button>
+    <div class="alt"><a href="#" id="no">No thanks</a></div>
+    <div class="fine">Random route from <code>/links.json</code>. Nothing happens without a click.</div>
+  </div>
+<script>
+const defaultLinks = [
+  "https://paypal.me/MJM0000",
+  "bitcoin:bc1q0hdgldhnlyytfdmfeqrywfsd96p0x67x7kyafp",
+  "eth.html"
+];
+async function pick() {
+  try {
+    const r = await fetch('/links.json', {cache:'no-store'});
+    const d = await r.json();
+    const L = Array.isArray(d) && d.length ? d : defaultLinks;
+    const i = Math.floor(Math.random()*L.length);
+    const t = L[i];
+    if (t.endsWith('.html')) { window.location.href = t; } else { window.open(t, '_blank'); }
+  } catch (e) {
+    const L = defaultLinks;
+    const i = Math.floor(Math.random()*L.length);
+    const t = L[i];
+    if (t.endsWith('.html')) { window.location.href = t; } else { window.open(t, '_blank'); }
+  }
+}
+document.getElementById('go').addEventListener('click', pick);
+document.getElementById('no').addEventListener('click', function(e) {
+  e.preventDefault();
+  history.back();
+});
+</script>
+</body>
+</html>
