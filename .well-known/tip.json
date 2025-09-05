@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "routes": [
+    {
+      "type": "paypal_me",
+      "url": "https://paypal.me/MJM0000",
+      "notes": "Open PayPal.me; payer chooses any amount."
+    },
+    {
+      "type": "bitcoin_bip21",
+      "uri": "bitcoin:bc1q0hdgldhnlyytfdmfeqrywfsd96p0x67x7kyafp",
+      "notes": "Opens in BTC wallet; payer sets the amount."
+    },
+    {
+      "type": "ethereum_local",
+      "path": "/eth.html",
+      "notes": "Local page with MetaMask mobile link and copy address."
+    }
+  ]
+}
